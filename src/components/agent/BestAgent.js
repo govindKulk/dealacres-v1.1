@@ -10,7 +10,7 @@ const Agent = (props) => {
     // let [limit, setLimit] = useState(5);
     const filteredData = data["Experts"];
   return (
-    <div className={styles.agentLayout}>
+    <div className={'flex gap-8 w-[75%] mx-auto'}>
       <div>
         <h2 className={styles.Explore}>Explore our Rent Agreement Experts</h2>
       <div>

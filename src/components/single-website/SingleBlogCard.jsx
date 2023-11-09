@@ -8,7 +8,7 @@ const SingleBlogCard = ({
     excrept
 }) => {
   return (
-    <div className='col-span-1 h-full   flex flex-col '>
+    <div className='col-span-1 h-full   flex flex-col overflow-hidden '>
         <div className='h-1/2 max-h-1/2 w-full '>
             <Image className='w-full h-full object-cover' src={img} alt={title} width={300} height={900} />
         </div>
@@ -19,8 +19,8 @@ const SingleBlogCard = ({
             <p className='font-bold'>
                 {tags}
             </p>
-            <p>
-                {excrept}
+            <p dangerouslySetInnerHTML={{__html: excrept}} className='text-justify py-2'>
+                
             </p>
         </div>
       

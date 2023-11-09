@@ -1,12 +1,13 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import SingleBlogCard from './SingleBlogCard'
 import src2 from '../../../public/single-website/parking.webp'
 import src1 from '../../../public/single-website/room.webp'
 import { useState } from 'react'
+import Link from 'next/link'
 const BlogsAndNews = () => {
-    
+    const [allBlogs, setAllBlogs] = useState(null) 
     const [showFull, setShowFull] = useState(false)
     const dummyBlogData = {
         title: "Luxurious Living",
@@ -14,21 +15,29 @@ const BlogsAndNews = () => {
         img: '/single website/room.webp',
         tags: 'Business, Luxury, Real Estate'
     }
+
+    useEffect(() => {
+        const posts = fetch('/api/posts').then((res) => res.json()).then((data) => setAllBlogs(data) )
+
+
+    }, [])
+
     return (
         <div className='py-8'>
-            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 py-4 items-center'>
+            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 py-4 items-center '>
             {
-                [...Array(9)].map((_, index) => {
+                allBlogs && allBlogs.posts.map((post, index) => {
 
 
                    
                     if(index < 3 || showFull){
-                    return <div key={index} className='col-span-1 h-full max-h-full '> 
-                            <SingleBlogCard img={index % 2 === 0 ? src2 : src1}
-                        title={dummyBlogData.title}
+                    return <Link href={`/blog/${post.slug}`} key={index} className='block col-span-1 h-full my-4 max-h-full text-black hover:text-blue-500 '> 
+                            <SingleBlogCard 
+                            img={allBlogs.postsThumbs[index].guid.rendered}
+                        title={post.title.rendered}
                         tags={dummyBlogData.tags}
-                        excrept={dummyBlogData.excrept}/>
-                        </div>
+                        excrept={post.excerpt.rendered}/>
+                        </Link>
                         
                     }
                   

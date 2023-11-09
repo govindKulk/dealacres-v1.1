@@ -1,3 +1,5 @@
+'use client'
+
 // data imports
 import BlogSideBar from "@/components/blog/blogsidebar/BlogSidebar";
 import postData from "./blogData.json"
@@ -8,80 +10,96 @@ import postData from "./blogData.json"
 import BlogPost from "@/components/blog/post/BlogPost";
 import Tabularposts from "@/components/blog/tabularposts/Tabularposts";
 import Guides from "@/components/blog/guides/Guides";
+import { useEffect } from "react";
+import { fetcher } from "@/app/libs/fetcher";
+import { useParams } from "next/navigation";
+import { ClipLoader } from "react-spinners";
+import { useState } from "react";
 
+// style imports
+import styles from './blogStyles.module.css'
+import './styles.css'
+import { Roboto } from "next/font/google";
+import Image from "next/image";
+
+
+const roboto = Roboto({
+  subsets: ['latin'],
+  weight: ['300','400','700','900']
+})
 
 const topicsData = [
   "RENTAL",
-  
+
   "Delhi NCR",
-  
+
   "HOME Decor",
-  
+
   "HELP GUIDE",
-  
+
   "construction",
-  
+
   "LifeSTYLE",
-  
+
   "TRends",
-  
+
   "CO-workation",
-  
+
   "legal and taxation",
-  
+
   "packers and movers",
-  
+
   "Retail and Hospitality"
-  ]
+]
 
 const allPostsData = [
   {
-      "title": "Preparing Your Home for a Loved One with Alzheimer’s: A Caregiver’s Guide",
-      "img": "article-thumb-1.jpg"
+    "title": "Preparing Your Home for a Loved One with Alzheimer’s: A Caregiver’s Guide",
+    "img": "article-thumb-1.jpg"
   }
   ,
   {
-      "title": "Why is My House So Dusty? 5 Easy Ways to Eliminate Dust",
-      "img": "article-thumb-2.webp"
+    "title": "Why is My House So Dusty? 5 Easy Ways to Eliminate Dust",
+    "img": "article-thumb-2.webp"
   }
   ,
   {
-      "title": "Preparing Your Home for a Loved One with Alzheimer’s: A Caregiver’s Guide",
-      "img": "article-thumb-1.jpg"
+    "title": "Preparing Your Home for a Loved One with Alzheimer’s: A Caregiver’s Guide",
+    "img": "article-thumb-1.jpg"
   }
   ,
   {
-      "title": "Why is My House So Dusty? 5 Easy Ways to Eliminate Dust",
-      "img": "article-thumb-2.webp"
+    "title": "Why is My House So Dusty? 5 Easy Ways to Eliminate Dust",
+    "img": "article-thumb-2.webp"
   }
   ,
   {
-      "title": "Preparing Your Home for a Loved One with Alzheimer’s: A Caregiver’s Guide",
-      "img": "article-thumb-1.jpg"
+    "title": "Preparing Your Home for a Loved One with Alzheimer’s: A Caregiver’s Guide",
+    "img": "article-thumb-1.jpg"
   }
   ,
   {
-      "title": "Why is My House So Dusty? 5 Easy Ways to Eliminate Dust",
-      "img": "article-thumb-2.webp"
+    "title": "Why is My House So Dusty? 5 Easy Ways to Eliminate Dust",
+    "img": "article-thumb-2.webp"
   }
 ]
 
 const articlesData = [
   {
-      "title": "Solar Panels for Apartments: The Complete Guide for Renters",
-      "img": "solar-panels.webp"
+    "title": "Solar Panels for Apartments: The Complete Guide for Renters",
+    "img": "solar-panels.webp"
   },
   {
-      "title": "Solar Panels for Apartments: The Complete Guide for Renters",
-      "img": "solar-panels.webp"
+    "title": "Solar Panels for Apartments: The Complete Guide for Renters",
+    "img": "solar-panels.webp"
   },
   {
-      "title": "Solar Panels for Apartments: The Complete Guide for Renters",
-      "img": "solar-panels.webp"
+    "title": "Solar Panels for Apartments: The Complete Guide for Renters",
+    "img": "solar-panels.webp"
   },
   {
-      "title": "Solar Panels for Apartments: The Complete Guide for Renters",
-      "img": "solar-panels.webp"
+    "title": "Solar Panels for Apartments: The Complete Guide for Renters",
+    "img": "solar-panels.webp"
   }
 ]
 
@@ -128,8 +146,22 @@ const guidesData = [
   }
 ]
 export default function SingleBlogPage() {
+  const [isLoading, setIsLoading] = useState(false)
+  const [blogData, setBlogData] = useState(null)
+  
+  const params = useParams();
 
+  useEffect(() => {
+    setIsLoading(true);
 
+    setTimeout(() => {
+      
+      fetch(`/api/posts/${params.id}`).then((res) => res.json()).then((data) => {
+        setBlogData(data.formatedPost);
+        setIsLoading(false);
+      })
+    }, 1000)
+  }, [])
 
 
 
@@ -137,25 +169,38 @@ export default function SingleBlogPage() {
     <div className="max-w-screen-2xl mx-auto">
       <div className='flex flex-col min-h-screen min-[960px]:grid min-[960px]:grid-cols-6'>
 
-        <div className="min-[960px]:col-span-4 px-2 py-2">
-          {/* Post Section */}
-          <BlogPost postData={postData} />
-        </div>
+        {isLoading ? <div className="items-center justify-center flex min-[960px]:col-span-4 px-2 py-2 max-h-screen bg-gray-200/40 shadow-md rounded  ">
+          <ClipLoader  size={300} />
+        </div> : <>
+          {!blogData ? <div className="min-[960px]:col-span-4 px-2 py-2" >
+            {/* Post Section */}
+            <BlogPost postData={postData} />
+          </div>: 
 
-        <div className="min-[960px]:col-span-2 px-2 py-2">
-          {/* Feeds section */}
-          <BlogSideBar allPosts={allPostsData} topics={topicsData} />
-        </div>
-        
-    </div>
 
-    <Tabularposts 
-    posts={allPostsData} 
-    articles = {articlesData} />
+          <div style={roboto.style} className = {`min-[960px]:col-span-4 px-2 py-2 ${styles.blogContainer} px-4 `}>
+   
+          <h1>{blogData.title.rendered}</h1>
 
-    <Guides showHeading guides={guidesData}  align="center"/>
+          <Image src={blogData.coverImage.guid.rendered} width={600} height={400} className="w-full max-h-[300px] object-cover" alt={blogData.title.rendered}/>
+          <div dangerouslySetInnerHTML={{ __html: blogData.content.rendered }} className="text-justify"></div>
+        </div>}
 
-  
+        </>}
+          <div className="min-[960px]:col-span-2 px-2 py-2">
+            {/* Feeds section */}
+            <BlogSideBar allPosts={allPostsData} topics={topicsData} />
+          </div>
+
+      </div>
+
+      <Tabularposts
+        posts={allPostsData}
+        articles={articlesData} />
+
+      <Guides showHeading guides={guidesData} align="center" />
+
+
     </div>
   )
 }

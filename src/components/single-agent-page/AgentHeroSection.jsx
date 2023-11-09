@@ -14,6 +14,7 @@ const AgentHeroSection = ({
     contacts,
     address,
     languages,
+    slug
     
 
 }) => {
@@ -35,7 +36,7 @@ const AgentHeroSection = ({
       <div className='text-white  col-span-2'>
         <div className='py-8 px-6 flex flex-col justify-between h-full gap-8'>
             <div className='text-center sm:text-left'>
-            <h2 className='inline-flex w-1/2 flex-col text-5xl font-bold   '>
+            <h2 className='inline-flex  flex-col text-4xl font-bold   '>
                 {name}
                 <div className='flex justify-center sm:justify-start' >
             <HeadingBorder/>
@@ -57,7 +58,9 @@ const AgentHeroSection = ({
 
             <div className='flex flex-col gap-4 items-center sm:items-start '>
                 <p className='text-lg font-bold'>
-                    Meet with Sanya Bansal
+                    Meet with <span className='capitalize m-0'>
+                      {slug.replaceAll('-', ' ')}
+                    </span>
                 </p>
                 <div className='flex flex-row gap-8 accent-green-500'>
                   <div className='flex flex-row gap-2'> 
@@ -86,7 +89,7 @@ const AgentHeroSection = ({
       </div>
 
       <div className='-order-1   sm:order-2 sm:relative rounded-3xl w-full sm:h-[95%] col-span-1 sm:after:absolute after:w-[100%] after:h-[101%] after:bg-white after:right-2 after:rounded-3xl after:top-1 py-4 md:py-0'>
-                <Image src={`/about-us/${img}`} className='rounded-3xl mx-auto sm:mx-0 h-[500px] w-auto sm:w-full sm:h-full  object-cover sm:absolute  z-10' width={300} height={300}/>
+                <Image src={`${img}`} className='rounded-3xl mx-auto sm:mx-0 h-[500px] w-auto sm:w-full sm:h-full  object-cover sm:absolute  z-10' width={300} height={300}/>
         </div>
     </div>
   )
