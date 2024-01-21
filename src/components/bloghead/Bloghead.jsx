@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import background from "../../../public/bloghead.jpg";
+import background from "../../../public/Bloghead.jpg";
 
 const Bloghead = () => {
   return (

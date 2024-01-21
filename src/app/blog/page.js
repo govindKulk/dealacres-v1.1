@@ -1,4 +1,3 @@
-import Bloghead from '@/components/bloghead/Bloghead'
 import React from 'react'
 import Blogcards from '@/components/blogcards/Blogcards'
 import Featured from '@/components/Featured/Featured'

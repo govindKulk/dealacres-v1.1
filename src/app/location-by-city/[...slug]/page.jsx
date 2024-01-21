@@ -13,7 +13,7 @@ import ExploreLocalitiesOfCities from "@/components/locationCityWise/ExploreLoca
 import HotspotOfCities from "@/components/locationCityWise/HotspotOfCity";
 import TopPropertyOfCity from "@/components/locationCityWise/TopPropertyOfCity";
 import InterestingReads from "@/components/exploreLocality/ViewAllComponents/InterestingReads";
-import FNQ from "@/components/LocationCityWise/FNQ";
+import Faq from "@/components/LocationCityWise/FNQ";
 
 const LocationByCity = () => {
   const [state, city] = useParams().slug;
@@ -32,7 +32,7 @@ const LocationByCity = () => {
 
       <TopPropertyOfCity />
 
-      <FNQ />
+      <Faq />
 
       <div>
         <h2 className="text-3xl font-bold mt-5 max-lg:text-2xl">
