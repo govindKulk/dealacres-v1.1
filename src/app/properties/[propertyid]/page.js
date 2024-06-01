@@ -1,3 +1,5 @@
+"use client"
+
 import styles from './page.module.css'
 import { data } from './dummydata'
 import Navbar02 from "@/components/property/navbar2/Navbar02"
@@ -11,11 +13,58 @@ import SimilarProject from '@/components/property/SimilarProject'
 import ReadMoreProperty from '@/components/property/ReadMoreProperty'
 import ReadMore from '@/components/propertyListing/ReadMore/ReadMore'
 import AgentFeedback from '@/components/single-agent-page/AgentFeedback'
+import { useParams, useSearchParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 
-async function Property(params) {
 
-  const id = params.params.propertyid
+function Property() {
+
+  // const id = params.params.propertyid
+  const {propertyid} = useParams()
+  const [propertyData, setPropertyData] = useState([]);
+
+  const [error, setError] = useState(false);
+  const searchParams = useSearchParams()
+  useEffect(() => {
+
+   
+
+
+     const getPropertyData = async () => {
+      try{
+        const res = await fetch(`https://dealacresbackend.onrender.com/api/property/${propertyid}`, {
+          method: "GET",
+          headers: {
+            Authorization: searchParams.get('token') ? searchParams.get('token') : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjEyNjAzOGRhZmNiMmFiNTBjMTcyYjAiLCJpYXQiOjE3MTcyNDMwNTAsImV4cCI6MTcxNzI0NjY1MH0.MmQCuMvCVGn2ju9MHt5Hs-81kdMu3xGchzAoAwTkSn8',
+            
+            
+          }
+        });
+        const data = await res.json();
+
+        if(res.status !== 200){
+          alert("error happened");
+          console.log(error);
+          return;
+        }
+  
+        setPropertyData(data)
+      }catch(error){
+        alert("error happened");
+        console.log(error);
+      }
+      
+     }
+
+     getPropertyData()
+  }, [])
+
+  console.log(propertyData)
+
+  if(propertyData.length === 0 ) {
+    return <div>Loading...</div>
+  }
 
   return (
     <>
@@ -24,7 +73,7 @@ async function Property(params) {
         <ImageContainer imageData={data.imageContainer} floorPlan={true} imageButtonPosition="imageButtonClass1" />
         <div className={styles.contentContainer}>
           <div className={styles.leftColumn}>
-            <MainContentContainer content={data.mainContent} />
+            <MainContentContainer content={data.mainContent} data = {propertyData} />
           </div>
           <div className={styles.rightColumn}>
             <SideContentContainer title={data.mainContent.title} />

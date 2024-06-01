@@ -16,7 +16,8 @@ function Mainoverview(props) {
                 <BiArea size={15} style={{marginTop: '10px', minWidth: '15px' , minHeight: '15px'}}/>
                 <div>
                     <h5>Project Area</h5>
-                    <h6>{props.overviewData.projectArea}</h6>
+                    {/* <h6>{props.overviewData.projectArea}</h6> */}
+                    <h6>{props.areaSize + " " + props.sizePostfix} </h6>
                 </div>
             </div>
             <div className={styles.overviewData}>
